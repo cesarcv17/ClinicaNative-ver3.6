@@ -15,7 +15,7 @@ export default function Header({ navigation, title, iconcheck, iconsearch }) {
   const alerta = true;
   const SearchHora = true;
   const SearchClinica = true;
-  const [confirmar, setconfirmar] = useState(true);
+  const [confirmar, setconfirmar] = useState();
   console.log(ancho);
 
   const menu = useRef();
@@ -55,7 +55,7 @@ export default function Header({ navigation, title, iconcheck, iconsearch }) {
             flex: 1,
           }}
         >
-          <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => {}}>
             <Icon
               name={iconcheck}
               type="material-community"
@@ -66,7 +66,7 @@ export default function Header({ navigation, title, iconcheck, iconsearch }) {
                 /*                 cambiarDato();
                 console.log("Dato a ");
                 console.log(confirmar); */
-                navigation.navigate("cita", { confirmar: true });
+             /*   navigation.navigate("cita", { confirmar: true });*/
               }}
             />
           </TouchableOpacity>

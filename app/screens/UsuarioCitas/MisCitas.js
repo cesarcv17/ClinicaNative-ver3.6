@@ -70,9 +70,8 @@ export default function ListRestaurants(props) {
   }, []);
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={{ backgroundColor: "white", padding: 20 }}>
       {/* LISTA DE CLINICAS */}
-      {console.log("aqui")}
       {console.log(login)}
       {login == "true" ? (
         <View style={{ backgroundColor: "white" }}>
@@ -92,6 +91,7 @@ export default function ListRestaurants(props) {
               name="refresh"
               type="material-community"
               color="#1F90FC"
+              
               onPress={() => {
                 keydata();
               }}
@@ -99,7 +99,7 @@ export default function ListRestaurants(props) {
           </TouchableOpacity>
 
           <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text>No se encuentra logeado</Text>
+            <Text>Actualizar</Text>
           </View>
         </View>
       )}
@@ -211,6 +211,9 @@ const styles = StyleSheet.create({
   flex: {
     flex: 0,
   },
+
+
+
   column: {
     flexDirection: "column",
   },

@@ -46,7 +46,7 @@ const NavigationStacks = createBottomTabNavigator(
     Account: {
       screen: AccountScreenStack,
       navigationOptions: () => ({
-        tabBarLabel: "Cuenta",
+        tabBarLabel: "Mi Cuenta",
         tabBarIcon: ({ tintColor }) => (
           <Icon
             type="material-community"
@@ -62,7 +62,7 @@ const NavigationStacks = createBottomTabNavigator(
     },
   },
   {
-    initialRouteName: "Restaurants",
+    initialRouteName: "Account",
     order: ["Restaurants", "Search", "Account"],
     tabBarOptions: {
       inactiveTintColor: "#646464",

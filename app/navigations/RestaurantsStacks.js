@@ -19,7 +19,7 @@ import { View } from "react-native";
 import MenuListFiltro from "../utils/MenuListFiltro";
 import MenuAdministrador from "../utils/MenuAdministrador";
 import AddRestaurantFormADMIN from "../components/Restaurants/FormAdm";
-
+import NotificationScreen from "../screens/Restaurants/Notificación";
 export const AppointmentScreenStacks = createStackNavigator({
   restaurants: {
     screen: AddAppointmentScreen,
@@ -114,6 +114,21 @@ export const AppointmentScreenStacks = createStackNavigator({
       };
     },
   },
+
+  Notificacion:{
+    screen: NotificationScreen,
+    navigationOptions: ({ navigation }) => {
+      return {
+        headerTitle: () => (
+          <ClassicHeader />
+          /*           <Header navigation={navigation} title="Citas disponibles" />
+           */
+        ),
+      };
+    },
+  },
+  
+
   cita: {
     screen: CitaSeleccionada,
     navigationOptions: ({ navigation, alert }) => {

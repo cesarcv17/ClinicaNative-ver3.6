@@ -93,6 +93,7 @@ async function ep_login(email, password, navigation, toastRef) {
     toastRef.current.show("Usuario y/o contraseña incorrecta", 1000);
   }
   /* ANTES WELCOME */
+
   navigation.navigate("Welcome", { user: json.id });
 }
 

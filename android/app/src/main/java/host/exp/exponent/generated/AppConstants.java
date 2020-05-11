@@ -23,9 +23,13 @@ public class AppConstants {
   static {
     List<Constants.EmbeddedResponse> embeddedResponses = new ArrayList<>();
 
-    // ADD EMBEDDED RESPONSES HERE
-    // START EMBEDDED RESPONSES
-    // END EMBEDDED RESPONSES
+    
+      
+      // ADD EMBEDDED RESPONSES HERE
+      // START EMBEDDED RESPONSES
+      embeddedResponses.add(new Constants.EmbeddedResponse("https://exp.host/@hollyxda/5-tenedores", "assets://shell-app-manifest.json", "application/json"));
+      embeddedResponses.add(new Constants.EmbeddedResponse("undefined", "assets://shell-app.bundle", "application/javascript"));
+      // END EMBEDDED RESPONSES
     EMBEDDED_RESPONSES = embeddedResponses;
   }
 

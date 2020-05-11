@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import SelectInfo from "../../components/ReservaCita/SelectInfo";
 import RNPickerSelect from "react-native-picker-select";
-import { Icon, CheckBox } from "react-native-elements";
+import { Icon, CheckBox, Overlay } from "react-native-elements";
 import { DialogContent, SlideAnimation } from "react-native-popup-dialog";
 import {
   Input,
@@ -31,7 +31,6 @@ import * as theme from "../../../themes/clinics";
 const { width, height } = Dimensions.get("window");
 import { withNavigation } from "react-navigation";
 import { AsyncStorage } from "react-native";
-
 
 
 function CitaSeleccionada(props) {
@@ -119,11 +118,11 @@ async function Paci() {
   const handleOK = () => {
     // The user has pressed the "Delete" button, so here you can do your own logic.
     // ...Your logic
-    setconfirmar(false);
+    confirmar ===false;
   };
 
   const showMenu = () => menu.current.show();
-  const blabla = () => {
+ /* const blabla = () => {
     keydata();
     if (login != "true") {
       alert("No inicio sesion");
@@ -133,6 +132,40 @@ async function Paci() {
   {
     confirmar ? blabla() : console.log("nada");
   }
+*/
+
+
+// para reservar citas
+ function reservarCita (){
+  const urlbase = `https://backendapplication-1.azurewebsites.net/api/citas/`;
+    const id = 19; // me falta obtener el id de la cita seleccionada
+    const url = urlbase + id;
+ console.log(url);
+    const paciente = 11;
+
+
+    const DataObj = {};
+    (DataObj.reserva = true),
+      (DataObj.paciente =paciente),
+    console.log(JSON.stringify(DataObj));
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(DataObj),
+    })
+      .then((res) => res.json())
+      .then(() => {
+        navigation.navigate("UserLoggued");
+      });
+    }
+
+
+
+// codigo del desplegable
+
+
   return (
     <View style={styles.flex}>
       {/* ANULAR CITA */}
@@ -140,11 +173,11 @@ async function Paci() {
         <Dialog.Container visible={login && confirmar}>
           <View>
             <Icon
-              name="check-circle-outline"
+              name="calendar-clock"
               type="material-community"
               underlayColor="transparent"
               iconStyle={styles.collegeIcon}
-              color="green"
+              color="gray"
               size={60}
             />
           </View>
@@ -156,7 +189,7 @@ async function Paci() {
                 fontWeight: "bold",
               }}
             >
-              Reserva completada{" "}
+             Reserva Completada {" "}
             </Dialog.Title>
             {/*             <Text style={styles.title}>Reserva completada</Text>
              */}
@@ -170,10 +203,10 @@ async function Paci() {
               Horario:{restaurant.item.hora}
             </Dialog.Description>
             <Dialog.Description style={styles.textoMenu}>
-              Clinica: {restaurant.item.ubicacion.clinica.nombre}
+              {restaurant.item.ubicacion.clinica.nombre}
             </Dialog.Description>
             <Dialog.Description style={styles.textoMenu}>
-              Paciente: Cesar Castro
+              Sede:{restaurant.item.ubicacion.distrito}
             </Dialog.Description>
 
             <CheckBox
@@ -186,12 +219,24 @@ async function Paci() {
           </View>
 
           <Dialog.Button
-            label="Cancel"
+            label="Cancelar"
             onPress={() => {
+
               navigation.navigate("cita", { navigation, confirmar: false });
             }}
           />
-          <Dialog.Button label="OK" onPress={handleOK} />
+
+          <Dialog.Button label="ACEPTAR" 
+          onPress={() => {
+
+            
+            /*reservarCita();*/
+            navigation.navigate("cita", { navigation, confirmar: false });
+            navigation.navigate("restaurants");
+            
+          }}
+
+       />
         </Dialog.Container>
       </View>
 
@@ -290,10 +335,16 @@ async function Paci() {
                   )}
                 </View>
               </View>
+
+
+            
               <View style={{ height: 200 }}>
                 <MapView navigation={navigation}></MapView>
               </View>
+             
             </ScrollView>
+
+           
           </View>
         </View>
       </View>
@@ -301,7 +352,6 @@ async function Paci() {
   )  
  }
 export default withNavigation (CitaSeleccionada);
-
 
 
 
@@ -411,6 +461,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 4,
     fontSize: 17,
+  },
+  btnContainerNext: {
+    marginTop: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "50%",
   },
 }
 );

@@ -52,8 +52,8 @@ function RegisterForm(props) {
         })
           .then((res) => res.json())
           .then(() => {
-            toastRef.current.show("Usuario Grabado Satisfactoriamente!", 1000);
-            toastRef.current.show("¡Iniciando Sesion!", 1000);
+            toastRef.current.show("Usuario registrado Satisfactoriamente!", 1000);
+            
             /*ep_login(ObjData.correo, ObjData.password, navigation);*/
             ep_login2(ObjData.correo, ObjData.password, navigation);
           });

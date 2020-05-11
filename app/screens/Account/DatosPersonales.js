@@ -101,7 +101,7 @@ function RegisterForm(props) {
       .then((res) => res.json())
       .then(() => {
         toastRef.current.show("¡Datos personales grabados!", 1000);
-        navigation.navigate("UserLoggued");
+        //navigation.navigate("Login");
       });
   }
 
