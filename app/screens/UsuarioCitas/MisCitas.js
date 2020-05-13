@@ -15,10 +15,11 @@ import { Icon } from "react-native-elements";
 import Octicons from "react-native-vector-icons/Octicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AsyncStorage } from "react-native";
+import { withNavigation } from "react-navigation";
 
 const { width, height } = Dimensions.get("window");
 
-export default function ListRestaurants(props) {
+function ListRestaurants(props) {
   const restaurants = require("../../utils/dat");
 
   console.log("jasdjas");
@@ -41,11 +42,18 @@ export default function ListRestaurants(props) {
       console.log(a);
       setidstorage(a);
     });
+
+     const id = await AsyncStorage.getItem("id");
+
+
+
+
+
     /* Traigo la info  */
 
     const resp = await fetch(
       "https://backendapplication-1.azurewebsites.net/api/usuarios/{id}/citas?id=" +
-        idstorage
+        id
     );
     const json = await resp.json();
     console.log(json);
@@ -73,7 +81,8 @@ export default function ListRestaurants(props) {
     <View style={{ backgroundColor: "white", padding: 20 }}>
       {/* LISTA DE CLINICAS */}
       {console.log(login)}
-      {login == "true" ? (
+     {login == "true" ?
+       (
         <View style={{ backgroundColor: "white" }}>
           <FlatList
             data={listaCitas}
@@ -106,6 +115,8 @@ export default function ListRestaurants(props) {
     </View>
   );
 }
+
+export default withNavigation(ListRestaurants);
 
 function Restaurant(props) {
   const { restaurant, navigation } = props;

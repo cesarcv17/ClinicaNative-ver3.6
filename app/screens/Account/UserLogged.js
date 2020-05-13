@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, AsyncStorage } from "react-native";
 import { Button, Icon } from "react-native-elements";
 import * as firebase from "firebase";
 import InfoUser from "../../components/Account/InfoUser";
@@ -10,9 +10,11 @@ import Button2 from "../../components/loginstyle/Button";
 import Text from "../../components/loginstyle/Text";
 import Block from "../../components/loginstyle/Block";
 
-import { withNavigation } from "react-navigation";
+import { withNavigation, DrawerItems } from "react-navigation";
+import CerrarSesion from "../../screens/Account/CerrarSesion";
 
 function UserLogged(props) {
+
   //aumento esto
   const { navigation } = props;
 
@@ -23,12 +25,14 @@ function UserLogged(props) {
   const toastRef = useRef();
 
   useEffect(() => {
-    (async () => {
-      const user = await firebase.auth().currentUser;
-      setUserInfo(user.providerData[0]);
+   (async () => {
+      /*const user = await firebase.auth().currentUser;
+      setUserInfo(user.providerData[0]);*/
     })();
     setReloadData(false);
   }, [reloadData]);
+
+  
 
   return (
     <View style={styles.viewUserInfo}>
@@ -87,14 +91,22 @@ function UserLogged(props) {
         onPress={() => firebase.auth().signOut()}
       />
  */}
-      <Block padding={[30, theme.sizes.base * 3]}>
-        <Button2 gradient onPress={() => firebase.auth().signOut()}>
+         <Block padding={[30, theme.sizes.base * 3]}> 
+        
+        <Button2 gradient onPress={()=>
+         
+               
+                props.navigation.navigate('MyAccount')
+                
+              }>
           <Text bold white center>
             Cerrar Sesion
           </Text>
-        </Button2>
-      </Block>
-
+        </Button2> 
+        
+      </Block> 
+ 
+      
       <Toast ref={toastRef} position="center" opacity={0.5} />
       <Loading text={textLoading} isVisible={isLoading} />
     </View>

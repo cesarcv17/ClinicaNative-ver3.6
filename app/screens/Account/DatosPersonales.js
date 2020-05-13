@@ -1,24 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { Icon } from "react-native-elements";
 import { validateEmail } from "../../utils/Validation";
 import * as firebase from "firebase";
-import { withNavigation } from "react-navigation";
+
 import Loading from "../../components/Loading";
 import Text from "../../components/loginstyle/Text";
 import Block from "../../components/loginstyle/Block";
 import { theme } from "../../constants";
-import Toast from "react-native-easy-toast";
+
 import Input from "../../components/loginstyle/Input";
 import DatePicker from "react-native-datepicker";
 import { Label } from "react-native-clean-form";
 import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/loginstyle/Button";
 import { AsyncStorage } from "react-native";
-
+import {isEmpty} from 'lodash';
+import { registrodatos } from "../../utils/endpoints";
+import { withNavigation } from "react-navigation";
+import Toast from "react-native-easy-toast";
 
 function RegisterForm(props) {
-  const { toastRef, navigation } = props;
+  
+  const toastRef= useRef();
+  const {navigation}= props;
+
+  console.log(navigation);
+  
+
+
   const idUser = props.navigation.state.params.id;
   const [hidePassword, setHidePassword] = useState(true);
   const [hideRepPassword, setHideRepPassword] = useState(true);
@@ -66,45 +76,6 @@ function RegisterForm(props) {
     setIsVisibleLoading(false);
   };
 
-  async function registroDatos () {
-    const urlbase = `https://backendapplication-1.azurewebsites.net/api/usuarios/`;
-    const id = await AsyncStorage.getItem("id");
-    const url = urlbase + id + "/paciente";
-
-    console.log(url);
-    const User = {
-      correo: "probando2",
-      enable: true,
-      password: "probando2",
-    };
-    const DataObj = {};
-    (DataObj.accountManagment = true),
-      (DataObj.apellidoMaterno = apellidoMaterno),
-      (DataObj.apellidoPaterno = apellidoPaterno),
-      (DataObj.correo = "a@a.com"),
-      (DataObj.dni = dni),
-      (DataObj.edad = parseInt(edad)),
-      (DataObj.fechaNac = fnacimiento),
-      (DataObj.nombre = nombre),
-      (DataObj.parentesco = "Yo"),
-      (DataObj.telefono = Telefono);      
-      (DataObj.usuario = User);
-      console.log(JSON.stringify(DataObj)); // esto es para ver el objeto que estoy ingresando
-    fetch(url, {
-      method: "POST",
-      headers: {
-        //'Accept': 'application/json', 
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(DataObj),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        toastRef.current.show("¡Datos personales grabados!", 1000);
-        //navigation.navigate("Login");
-      });
-  }
-
   /*   return fetch('/appointments/get_appos', data)
           .then(response => response.json())  // promise
           .then(json => dispatch(receiveAppos(json)))
@@ -125,7 +96,7 @@ function RegisterForm(props) {
               </Text>
               <Input
                 label="Nombres"
-                placeholder="Pedro Adrian"
+                placeholder=""
                 style={styles.input}
                 onChange={(e) => setNombre(e.nativeEvent.text)}
                
@@ -133,7 +104,7 @@ function RegisterForm(props) {
 
               <Input
                 label="Apellido Paterno"
-                placeholder="Vela"
+                placeholder=""
                 password={true}
                 style={styles.input}
                 onChange={(e) => setapellidoPaterno(e.nativeEvent.text)}
@@ -141,14 +112,14 @@ function RegisterForm(props) {
               />
               <Input
                 label="Apellido Materno"
-                placeholder="Cruz"
+                placeholder=""
                 style={styles.input}
                 onChange={(e) => setapellidoMaterno(e.nativeEvent.text)}
               
               />
               <Input
                 label="DNI"
-                placeholder="12345678"
+                placeholder=""
                 style={styles.input}
                 onChange={(e) => setDni(e.nativeEvent.text)}
               />
@@ -200,7 +171,7 @@ function RegisterForm(props) {
               />
               <Input
                 label="Telefono"
-                placeholder="134235346"
+                placeholder=""
                 style={styles.input}
                 onChange={(e) => setTelefono(e.nativeEvent.text)}
              
@@ -209,8 +180,8 @@ function RegisterForm(props) {
                 gradient
                 containerStyle={styles.btnContainerNext}
                 onPress={() => {
-                  registroDatos();
-                  navigation.navigate("UserLoggued");
+                  registrodatos(nombre, apellidoMaterno, apellidoPaterno, dni, Telefono, edad, fnacimiento,toastRef,navigation);
+                
                 }}
               >
                 <Text bold white center>
@@ -220,8 +191,10 @@ function RegisterForm(props) {
 
               <Loading text="Creando cuenta" isVisible={isVisibleLoading} />
             </View>
+           
           </Block>
         </Block>
+        <Toast ref={toastRef} position="center" opacity={0,9}/>
       </View>
     </ScrollView>
   );

@@ -1,5 +1,7 @@
 import Toast from "react-native-easy-toast";
 import { AsyncStorage } from "react-native";
+import { withNavigation } from "react-navigation";
+import {isEmpty} from 'lodash';
 async function funcionA() {
   const dato = {};
   await navigator.geolocation.getCurrentPosition((position) => {
@@ -17,6 +19,8 @@ async function funcionA() {
 async function ep_listUsuarios(correo, new_pass, toastRef, navigation) {
   var listUsers;
   var json;
+
+
   try {
     const resp = await fetch(
       "http://backendapplication-1.azurewebsites.net/api/usuarios"
@@ -64,6 +68,16 @@ async function ep_listUsuarios(correo, new_pass, toastRef, navigation) {
 async function ep_login(email, password, navigation, toastRef) {
   console.log("funcion login");
   console.log(email, password);
+  
+    if(isEmpty(email) ) {
+      toastRef.current.show("Por favor, ingrese el correo electrónico", 5000);
+    } else
+    if(isEmpty(password)) {
+      toastRef.current.show("Por favor, ingrese su contraseña", 5000);
+
+    } else {
+  
+   
   const urlbase = `http://backendapplication-1.azurewebsites.net/api/usuarios/login?`;
   const correo = `correo=${email.trim()}`;
   const pass = `&password=${password}`;
@@ -90,11 +104,12 @@ async function ep_login(email, password, navigation, toastRef) {
 
     keyUser();
   } catch (error) {
-    toastRef.current.show("Usuario y/o contraseña incorrecta", 1000);
+  toastRef.current.show("Correo y/o contraseña incorrecta", 5000);
   }
   /* ANTES WELCOME */
-
+  
   navigation.navigate("Welcome", { user: json.id });
+}
 }
 
 async function ep_login2(email, password, navigation, toastRef) {
@@ -126,14 +141,74 @@ async function ep_login2(email, password, navigation, toastRef) {
 
     keyUser();
   } catch (error) {
-    toastRef.current.show("Usuario y/o contraseña incorrecta", 1000);
+  //  toastRef.current.show("Usuario y/o contraseña incorrecta", 1000);
   }
   /* ANTES WELCOME */
   navigation.navigate("Datos", { user: json.id });
 }
 
 
+async function registrodatos (nombre, apellidoMaterno, apellidoPaterno, dni, Telefono, edad, fnacimiento,toastRef,navigation) {
 
+  
+ // const { navigation} = props;
+ 
+ console.log(navigation);
+
+  if(isEmpty(nombre) || isEmpty(apellidoMaterno) || isEmpty(apellidoPaterno) || isEmpty(dni) || isEmpty(Telefono) || isEmpty(edad)) {
+    toastRef.current.show("Todos los campos son obligatorios", 5000);
+  } 
+
+  else{
+    
+  const urlbase = `https://backendapplication-1.azurewebsites.net/api/usuarios/`;
+  const id = await AsyncStorage.getItem("id");
+  const url = urlbase + id + "/paciente";
+
+  console.log(url);
+
+    const User = {
+    correo: "probando2",
+    enable: true,
+    password: "probando2",
+  };
+
+   const DataObj = {};
+    (DataObj.accountManagment = true),
+    (DataObj.apellidoMaterno = apellidoMaterno),
+    (DataObj.apellidoPaterno = apellidoPaterno),
+    (DataObj.correo = "a@a.com"),
+    (DataObj.dni = dni),
+    (DataObj.edad = parseInt(edad)),
+    (DataObj.fechaNac = fnacimiento),
+    (DataObj.nombre = nombre),
+    (DataObj.parentesco = "Yo"),
+    (DataObj.telefono = Telefono),      
+    (DataObj.usuario = User),
+    console.log(JSON.stringify(DataObj));
+     // esto es para ver el objeto que estoy ingresando
+     
+  fetch(url, {
+    method: "POST",
+    headers: {
+      //'Accept': 'application/json', 
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify(DataObj),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      toastRef.current.show("¡Datos personales grabados!", 5000),
+
+      console.log(navigation);
+      console.log("PUTAMARE");
+      navigation.navigate("UserLoggued");
+      
+      
+      //navigation.navigate("Login");
+    })
+  }
+}
 
 
 async function ep_primeraVez(v_id) {
@@ -161,4 +236,5 @@ module.exports = {
   ep_login2,
   ep_listUsuarios,
   ep_primeraVez,
+  registrodatos,
 };

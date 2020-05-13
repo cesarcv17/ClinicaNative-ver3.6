@@ -96,7 +96,6 @@ async function Paci() {
     patientsOptions.push(obj);
   }
 
-
   //
 
   const keydata = async () => {
@@ -138,16 +137,66 @@ async function Paci() {
 // para reservar citas
  function reservarCita (){
   const urlbase = `https://backendapplication-1.azurewebsites.net/api/citas/`;
-    const id = 19; // me falta obtener el id de la cita seleccionada
-    const url = urlbase + id;
+    const cita_id = restaurant.item.id;
+    const url = urlbase + cita_id;
  console.log(url);
-    const paciente = 11;
 
+  const fecha= parametrosBuscados.fecha;
 
+  const hora= restaurant.item.hora;
+  
+   const medico = {
+    apellidoMaterno: "string",
+    apellidoPaterno: "string",
+    id: 1,
+    img: "tr",
+    nombre: "blabla",
+  };
+const paciente = {
+
+  accountManagment: true,
+  apellidoMaterno: "probando",
+  apellidoPaterno: "probando",
+  correo: "probando" ,
+  dni: "probando" ,
+  edad: 1,
+  fechaNac: "2020-05-06T23:41:22.624Z",
+  id: 2,
+  nombre: "probando",
+  parentesco: "probando",
+  telefono: "probando",
+
+  usuario: {
+    correo: "pruebas@f.com",
+    enable: true,
+    id: 2,
+    password: "f"
+  }
+}
+const pago= 50;
+const ubicacion= {
+  clinica:{
+    descripcion: "string",
+    id: 1,
+    nombre: "string",
+    telefono: "string"
+  },
+  distrito: "San Borja",
+  id: restaurant.item.ubicacion.id,
+  img: "string",
+  latitud: "string",
+  longitud: "string"
+}
     const DataObj = {};
+   //(DataObj.id = cita_id),
+    (DataObj.fecha= fecha),
+    //(DataObj.hora= hora),
+    //(DataObj.pago= pago),
     (DataObj.reserva = true),
-      (DataObj.paciente =paciente),
-    console.log(JSON.stringify(DataObj));
+    //(DataObj.medico= medico),
+    (DataObj.paciente = paciente),
+    //(DataObj.ubicacion= parseInt(1)),
+    console.log(JSON.stringify(DataObj)),
     fetch(url, {
       method: "PUT",
       headers: {
@@ -158,7 +207,7 @@ async function Paci() {
       .then((res) => res.json())
       .then(() => {
         navigation.navigate("UserLoggued");
-      });
+      })
     }
 
 
@@ -230,7 +279,7 @@ async function Paci() {
           onPress={() => {
 
             
-            /*reservarCita();*/
+            reservarCita();
             navigation.navigate("cita", { navigation, confirmar: false });
             navigation.navigate("restaurants");
             

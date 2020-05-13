@@ -23,7 +23,7 @@ function LoginForm(props) {
   const [isVisibleLoading, setIsVisibleLoading] = useState(false);
   const hasErrors = (key) => (errors.includes(key) ? styles.hasErrors : null);
   const VALID_EMAIL = "contact@vela.com";
-  const VALID_PASSWORD = "vela123";
+  const VALID_PASSWORD = "";
   const { width, height } = Dimensions.get("window");
   const errors = [];
   const loading = false;
@@ -63,7 +63,7 @@ function LoginForm(props) {
 
         <Block middle>
           <Input
-            label="Email"
+            label="Correo Electrónico"
             error={hasErrors("email")}
             style={[styles.input, hasErrors("email")]}
             /*             onChangeText={(text) => setEmail(text)}*/
@@ -72,7 +72,7 @@ function LoginForm(props) {
           />
           <Input
             secure
-            label="Password"
+            label="Contraseña"
             error={hasErrors("password")}
             style={[styles.input, hasErrors("password")]}
             defaultValue={VALID_PASSWORD}

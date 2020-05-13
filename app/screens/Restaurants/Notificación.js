@@ -49,9 +49,8 @@ function Notification(props){
     
       return (
         <View>
-          <Button title="Aceptar" onPress={toggleOverlay} />
     
-          <Overlay isVisible={visible} onBackdropPress={toggleOverlay,  navigation.navigate("Search")}>
+          <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
             <Text>Cita Médica reservada!</Text>
           </Overlay>
         </View>
