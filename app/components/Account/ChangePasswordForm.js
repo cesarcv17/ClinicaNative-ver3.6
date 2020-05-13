@@ -40,12 +40,12 @@ export default function ChangePasswordForm(props) {
               .currentUser.updatePassword(newPassword)
               .then(() => {
                 setIsLoading(false);
-                toastRef.current.show("Contraseña actualizada correctamente");
+                toastRef.current.show("Contraseña actualizada correctamente",5000);
                 setIsVisibleModal(false);
                 //firebase.auth().signOut(); --SALIR DE LA CUENTA AL CAMBIAR LA CONTRASEÑA
               })
               .catch(() => {
-                setError({ general: "Error al actualizar la contraseña." });
+                setError({ general: "Error al actualizar la contraseña."});
                 setIsLoading(false);
               });
           })

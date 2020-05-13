@@ -33,12 +33,13 @@ function UserLogged(props) {
   return (
     <View style={styles.viewUserInfo}>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
+   
         <Image
           source={require("../../../assets/img/carpeta.png")}
           style={{
             width: "50%",
             resizeMode: "contain",
-            height: 50 + height / 3,
+            height: 2 + height / 4,
             marginTop: height / 2 - 250,
             backgroundColor: "white",
           }}
@@ -47,14 +48,25 @@ function UserLogged(props) {
       <View>
         <Text
           style={{
-            paddingLeft: width / 2 / 3,
-            paddingRight: width / 2 / 3,
+            paddingLeft: width / 4 / 4,
+            paddingRight: width / 4 / 4,
             textAlign: "center",
-            paddingTop: 20,
-            fontSize: 20,
+            paddingTop: 15,
+            fontSize: 17,
           }}
         >
-          Para reservar tu cita,llena los siguientes datos
+          Bienvenido a EasyAppointment.
+        </Text>
+
+        <Text style={{
+            paddingLeft: width / 3 / 3,
+            paddingRight: width / 3/ 3,
+            textAlign: "center",
+            paddingTop: 10,
+            fontSize: 17,
+          }}
+        >
+          Para reservar tu cita, llena los siguientes datos.
         </Text>
 
         <View style={{ margin: 60 }}>

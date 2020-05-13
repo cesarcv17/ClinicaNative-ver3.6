@@ -10,6 +10,8 @@ import DatosPersonales from "../screens/Account/DatosPersonales";
 import InformacionUsuario from "../screens/Account/InformacionUsuario";
 import ModificarDatos from "../screens/Account/ModificarDatos";
 import AgregarPaciente from "../screens/Patients/AgregarPaciente";
+import presentacion from "../screens/Account/LoginBienvenida";
+
 
 import UserLogged from "../screens/Account/UserLogged";
 import { Icon } from "react-native-elements";
@@ -190,6 +192,14 @@ export const AccountScreenStack = createStackNavigator({
       title: "Configuración",
     }),
   },
+
+  formuDatos: {
+    screen: presentacion,
+    navigationOptions: () => ({
+      title: "Bienvenida",
+    }),
+  },
+
   AddPatient: {
     screen: AddPatientScreen,
     navigationOptions: () => ({

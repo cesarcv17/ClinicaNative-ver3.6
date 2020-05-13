@@ -25,13 +25,13 @@ function RegisterForm(props) {
   const register = async () => {
     setIsVisibleLoading(true);
     if (!email || !password || !RePassword) {
-      toastRef.current.show("Todos los campos son obligatorios");
+      toastRef.current.show("Todos los campos son obligatorios", 5000);
     } else {
       if (!validateEmail(email)) {
-        toastRef.current.show("El email no es correcto");
+        toastRef.current.show("Email no registrado", 5000);
       } else {
         if (password !== RePassword) {
-          toastRef.current.show("Las contraseñas no son iguales");
+          toastRef.current.show("Las contraseñas no son iguales", 5000);
         } else {
           await firebase
             .auth()
@@ -41,7 +41,7 @@ function RegisterForm(props) {
             })
             .catch(() => {
               toastRef.current.show(
-                "Error al crear la cuenta. Inténtelo nuevamente"
+                "Error al crear la cuenta. Inténtelo nuevamente",5000
               );
             });
         }
@@ -98,7 +98,7 @@ function RegisterForm(props) {
             />
 
             <Input
-              label="Contraseña"
+              label="Nueva Contraseña"
               placeholder="*****"
               password={true}
               secureTextEntry={hidePassword}
@@ -114,7 +114,7 @@ function RegisterForm(props) {
               }
             />
             <Input
-              label="Repetir contraseña"
+              label="Repetir nueva contraseña"
               placeholder="******"
               password={true}
               secureTextEntry={true}
@@ -140,7 +140,7 @@ function RegisterForm(props) {
             <Button
               gradient
               onPress={() =>
-                ep_listUsuarios(email, password, toastRef, navigation)
+                ep_listUsuarios(email, password,RePassword, toastRef, navigation)
               }
             >
               <Text bold white center>

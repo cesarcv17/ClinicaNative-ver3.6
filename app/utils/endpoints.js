@@ -16,10 +16,17 @@ async function funcionA() {
   });
 }
 
-async function ep_listUsuarios(correo, new_pass, toastRef, navigation) {
+async function ep_listUsuarios(correo, new_pass, RePassword,toastRef, navigation) {
   var listUsers;
   var json;
 
+if(!correo || !new_pass || !RePassword ) {
+  toastRef.current.show("Todos los campos son obligatorios", 5000)
+} else {
+
+  if(new_pass !== RePassword ) {
+    toastRef.current.show("Las contraseñas deben ser iguales", 5000) 
+  } else {
 
   try {
     const resp = await fetch(
@@ -50,19 +57,21 @@ async function ep_listUsuarios(correo, new_pass, toastRef, navigation) {
           );
           break;
         } catch (error) {
-          toastRef.current.show("Error de actualizacion", 1000);
+          toastRef.current.show("Error de actualizacion", 5000);
           console.log("ERROR AL ACTUALIZAR");
         }
       }
     }
-    toastRef.current.show("Actualizacion de contraseña correctamente", 1000);
+    toastRef.current.show("Contraseña actualizada", 50000);
     setTimeout(() => {
       console.log("sdas");
-    }, 6000);
+    }, 90000);
     navigation.navigate("MyAccount");
   } catch (error) {
     console.log("ERROR LISTA DE USUARIOS");
   }
+}
+}
 }
 
 async function ep_login(email, password, navigation, toastRef) {
@@ -144,7 +153,7 @@ async function ep_login2(email, password, navigation, toastRef) {
   //  toastRef.current.show("Usuario y/o contraseña incorrecta", 1000);
   }
   /* ANTES WELCOME */
-  navigation.navigate("Datos", { user: json.id });
+  navigation.navigate("formuDatos", { user: json.id });
 }
 
 
