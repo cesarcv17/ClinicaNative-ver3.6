@@ -13,6 +13,7 @@ import { Icon } from "react-native-elements";
 import ActionButton from "react-native-action-button";
 import * as firebase from "firebase";
 import * as clinics from "../../../themes/clinics";
+import { Button } from "react-native-elements";
 
 export default function NuevoPaciente(props) {
   const { navigation } = props;
@@ -30,9 +31,9 @@ export default function NuevoPaciente(props) {
   return (
     <View style={styles.viewBody}>
       <Image
-        source={require("../../../assets/img/familia.png")}
+        source={require("../../../assets/img/Familiar.jpeg")}
         style={styles.logo}
-        reziseMode="contain"
+        reziseMode= "cover"
       />
 
       {/*       <Text style={styles.title}>Añade a un familiar!</Text>
@@ -51,8 +52,24 @@ export default function NuevoPaciente(props) {
         keyExtractor={(item, index) => index.toString()}
         onEndReachedThreshold={0}
       />
+      
       {user && <AddPatientButton navigation={navigation} />}
+      <ActionButton    
+      
+      gradient
+      containerStyle={styles.btnAddPatient}
+      onPress={() => {
+        navigation.navigate("PacienteAgregar");
+      }}
+    >
+     
+    </ActionButton>
+
+
+
+
     </View>
+
   );
 }
 
@@ -154,15 +171,15 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   imageRestaurant: {
-    width: 80,
-    height: 80,
+    width: 60,
+    height: 60,
   },
   viewRestaurantImage: {
-    marginRight: 15,
+    marginRight: 30,
   },
   viewRestaurant: {
     flexDirection: "row",
-    borderRadius: 50,
+    borderRadius: 20,
     borderColor: "green",
     backgroundColor: "white",
   },
@@ -170,20 +187,26 @@ const styles = StyleSheet.create({
     borderRadius: clinics.sizes.radius,
     paddingHorizontal: clinics.sizes.padding,
     paddingVertical: clinics.sizes.padding / 2,
-    marginRight: 10,
-    marginLeft: 10,
+    marginRight: 30,
+    marginLeft: 30,
     backgroundColor: clinics.colors.white,
   },
+  btnAddPatient: {
+    marginTop: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "80%",
+  },
   logo: {
-    width: "30%",
-    height: 100,
-    marginTop: 50,
-    margin: 35,
-    marginLeft: 140,
+    width: "100%",
+    height: 180,
+    marginTop: 0,
+    margin: 25,
+    marginLeft: 0,
   },
   title: {
-    fontWeight: "bold",
-    fontSize: 18,
+    fontWeight: "bolder",
+    fontSize: 20,
     marginBottom: 10,
     textAlign: "center",
     fontWeight: "100",
@@ -200,5 +223,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     fontSize: 14,
-  },
+  }
+ 
 });

@@ -210,7 +210,6 @@ async function registrodatos (nombre, apellidoMaterno, apellidoPaterno, dni, Tel
       toastRef.current.show("¡Datos personales grabados!", 5000),
 
       console.log(navigation);
-      console.log("PUTAMARE");
       navigation.navigate("UserLoggued");
       
       
@@ -218,6 +217,141 @@ async function registrodatos (nombre, apellidoMaterno, apellidoPaterno, dni, Tel
     })
   }
 }
+
+
+async function añadirpaciente (nombre, apellidoMaterno, apellidoPaterno, dni, Telefono, edad, fnacimiento,parentesco,correo,toastRef,navigation) {
+
+  
+  // const { navigation} = props;
+  
+  console.log(navigation);
+ 
+   if(isEmpty(nombre) || isEmpty(apellidoMaterno) || isEmpty(apellidoPaterno) || isEmpty(dni) || isEmpty(Telefono) || isEmpty(edad) || isEmpty(correo) || isEmpty(parentesco)) {
+     toastRef.current.show("Todos los campos son obligatorios", 4000);
+   } 
+ 
+   else{
+     
+   const urlbase = `https://backendapplication-1.azurewebsites.net/api/usuarios/`;
+   const id = await AsyncStorage.getItem("id");
+   const url = urlbase + id + "/paciente";
+ 
+   console.log(url);
+ 
+     const User = {
+     correo: "probando2",
+     enable: true,
+     password: "probando2",
+   };
+ 
+    const DataObj = {};
+     (DataObj.accountManagment = false),
+     (DataObj.apellidoMaterno = apellidoMaterno),
+     (DataObj.apellidoPaterno = apellidoPaterno),
+     (DataObj.correo = correo),
+     (DataObj.dni = dni),
+     (DataObj.edad = parseInt(edad)),
+     (DataObj.fechaNac = fnacimiento),
+     (DataObj.nombre = nombre),
+     (DataObj.parentesco = parentesco),
+     (DataObj.telefono = Telefono),      
+     (DataObj.usuario = User),
+     console.log(JSON.stringify(DataObj));
+      // esto es para ver el objeto que estoy ingresando
+      
+   fetch(url, {
+     method: "POST",
+     headers: {
+       //'Accept': 'application/json', 
+       "Content-Type": "application/json; charset=UTF-8",
+     },
+     body: JSON.stringify(DataObj),
+   })
+     .then((res) => res.json())
+     .then(() => {
+       toastRef.current.show("¡Paciente añadido!", 10000),
+       navigation.navigate("UserLoggued");
+ 
+       console.log(navigation);
+       
+       
+       //navigation.navigate("Login");
+     })
+
+     
+
+   }
+ }
+//NO SE ENCUENTRA FUNCIONANDO PORQUE PARECE QUE EN EL ENDPOINT HAY ERROR. DE TODAS MANERAS SE DEBE MEJORAR EL CODE
+ async function modificardatos (nombre, apellidoMaterno, apellidoPaterno, dni, Telefono, edad, fnacimiento,toastRef,navigation) {
+
+  
+  // const { navigation} = props;
+  
+  console.log(navigation);
+ 
+   if(isEmpty(nombre) || isEmpty(apellidoMaterno) || isEmpty(apellidoPaterno) || isEmpty(dni) || isEmpty(Telefono) || isEmpty(edad) ) {
+     toastRef.current.show("Todos los campos son obligatorios", 4000);
+   } 
+ 
+   else{
+     
+/*   const urlbase = `https://backendapplication-1.azurewebsites.net/api/usuarios/`;
+   const id = await AsyncStorage.getItem("id");
+   const url = urlbase + id + "/paciente";
+ */
+
+ const urlbase = `https://backendapplication-1.azurewebsites.net/api/pacientes/`;
+ const id = 2;
+ const url = urlbase + id ;
+
+
+  
+   console.log(url);
+ 
+     const User = {
+    id: await AsyncStorage.getItem("id"),
+     correo: "pruebas@f.com",
+     enable: true,
+     password: "f",
+   };
+ 
+    const DataObj = {};
+     (DataObj.accountManagment = true),
+     (DataObj.apellidoMaterno = apellidoMaterno),
+     (DataObj.apellidoPaterno = apellidoPaterno),
+     (DataObj.correo = 'aea@a.com'),
+     (DataObj.dni = dni),
+     (DataObj.edad = parseInt(edad)),
+     (DataObj.fechaNac = fnacimiento),
+     (DataObj.nombre = nombre),
+     (DataObj.parentesco = 'yo'),
+     (DataObj.telefono = Telefono),      
+     (DataObj.usuario = User),
+     console.log(JSON.stringify(DataObj));
+      // esto es para ver el objeto que estoy ingresando
+      
+   fetch(url, {
+     method: "PUT",
+     headers: {
+       //'Accept': 'application/json', 
+       "Content-Type": "application/json; charset=UTF-8",
+     },
+     body: JSON.stringify(DataObj),
+   })
+     .then((res) => res.json())
+     .then(() => {
+       toastRef.current.show("¡Datos personales modificados!", 10000),
+       navigation.navigate("InfoUser");
+ 
+       console.log(navigation);
+       
+       
+       //navigation.navigate("Login");
+     })
+
+   }
+ }
 
 
 async function ep_primeraVez(v_id) {
@@ -246,4 +380,6 @@ module.exports = {
   ep_listUsuarios,
   ep_primeraVez,
   registrodatos,
+  añadirpaciente,
+  modificardatos,
 };

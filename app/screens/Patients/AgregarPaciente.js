@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { Icon } from "react-native-elements";
 import { validateEmail } from "../../utils/Validation";
@@ -14,48 +14,32 @@ import DatePicker from "react-native-datepicker";
 import { Label } from "react-native-clean-form";
 import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../components/loginstyle/Button";
+import { añadirpaciente } from "../../utils/endpoints";
 
 function RegisterForm(props) {
-  const { toastRef, navigation } = props;
-  const [hidePassword, setHidePassword] = useState(true);
-  const [hideRepPassword, setHideRepPassword] = useState(true);
-  const [isVisibleLoading, setIsVisibleLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [RePassword, setRePassword] = useState("");
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
+  
+  const toastRef= useRef();
+  const {navigation}= props;
 
-  const register = async () => {
-    setIsVisibleLoading(true);
-    if (!email || !password || !RePassword) {
-      toastRef.current.show("Todos los campos son obligatorios");
-    } else {
-      if (!validateEmail(email)) {
-        toastRef.current.show("El email no es correcto");
-      } else {
-        if (password !== RePassword) {
-          toastRef.current.show("Las contraseñas no son iguales");
-        } else {
-          await firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(() => {
-              navigation.navigate("MyAccount");
-            })
-            .catch(() => {
-              toastRef.current.show(
-                "Error al crear la cuenta. Inténtelo nuevamente"
-              );
-            });
-        }
-      }
-    }
-    setIsVisibleLoading(false);
-  };
+
+
+  const [isVisibleLoading, setIsVisibleLoading] = useState(false);
+  const [mode, setMode] = useState("date");
+  const [correo, setCorreo] = useState("");
+  const [parentesco, setParentesco] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellidoPaterno, setapellidoPaterno] = useState("");
+  const [apellidoMaterno, setapellidoMaterno] = useState("");
+  const [dni, setDni] = useState("");
+  const [fnacimiento, setFnacimiento] = useState(new Date(1598051730000));
+  const [edad, setEdad] = useState("");
+  const [Telefono, setTelefono] = useState("");
+
+
 
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
+
+<ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.formContainer}>
         <Block
           padding={[0, theme.sizes.base * 0.1]}
@@ -69,65 +53,31 @@ function RegisterForm(props) {
               </Text>
               <Input
                 label="Nombres"
-                placeholder="Pedro Adrian"
+                placeholder=""
                 style={styles.input}
-                onChange={(e) => setEmail(e.nativeEvent.text)}
-                rightIcon={
-                  <Icon
-                    type="material-community"
-                    name="at"
-                    iconStyle={styles.iconRight}
-                  />
-                }
+                onChange={(e) => setNombre(e.nativeEvent.text)}
+               
               />
 
               <Input
                 label="Apellido Paterno"
-                placeholder="Vela"
-                password={true}
-                secureTextEntry={hidePassword}
+                placeholder=""
                 style={styles.input}
-                onChange={(e) => setPassword(e.nativeEvent.text)}
-                rightIcon={
-                  <Icon
-                    type="material-community"
-                    name={hidePassword ? "eye-outline" : "eye-off-outline"}
-                    iconStyle={styles.iconRight}
-                    onPress={() => setHidePassword(!hidePassword)}
-                  />
-                }
+                onChange={(e) => setapellidoPaterno(e.nativeEvent.text)}
+               
               />
               <Input
                 label="Apellido Materno"
-                placeholder="Cruz"
-                password={true}
-                secureTextEntry={true}
+                placeholder=""
                 style={styles.input}
-                onChange={(e) => setRePassword(e.nativeEvent.text)}
-                rightIcon={
-                  <Icon
-                    type="material-community"
-                    name={hideRepPassword ? "eye-outline" : "eye-off-outline"}
-                    iconStyle={styles.iconRight}
-                    onPress={() => setHideRepPassword(!hideRepPassword)}
-                  />
-                }
+                onChange={(e) => setapellidoMaterno(e.nativeEvent.text)}
+              
               />
               <Input
                 label="DNI"
-                placeholder="12345678"
-                password={true}
-                secureTextEntry={true}
+                placeholder=""
                 style={styles.input}
-                onChange={(e) => setRePassword(e.nativeEvent.text)}
-                rightIcon={
-                  <Icon
-                    type="material-community"
-                    name={hideRepPassword ? "eye-outline" : "eye-off-outline"}
-                    iconStyle={styles.iconRight}
-                    onPress={() => setHideRepPassword(!hideRepPassword)}
-                  />
-                }
+                onChange={(e) => setDni(e.nativeEvent.text)}
               />
 
               <Label style={styles.input}>Fecha Nacimiento</Label>
@@ -137,13 +87,13 @@ function RegisterForm(props) {
                   /*                   backgroundColor: "red",
                    */
                 }}
-                date={date}
+                date={fnacimiento}
                 mode={mode}
                 containerStyle={""}
                 placeholder="select date"
                 format="YYYY-MM-DD"
-                minDate="2006-05-01"
-                maxDate="2026-06-01"
+                minDate="1900-05-01"
+                maxDate="2026-05-01"
                 confirmBtnText="Confirm"
                 cancelBtnText="Cancel"
                 showIcon={false}
@@ -164,59 +114,57 @@ function RegisterForm(props) {
                   },
                   // ... You can check the source to find the other keys.
                 }}
-                onDateChange={(date) => {
-                  setDate(date);
+                onDateChange={(fnacimiento) => {
+                  setFnacimiento(fnacimiento);
                 }}
               />
               <Input
                 label="Edad"
-                placeholder="22"
-                password={true}
-                secureTextEntry={true}
+                placeholder=""
                 style={styles.input}
-                onChange={(e) => setRePassword(e.nativeEvent.text)}
-                rightIcon={
-                  <Icon
-                    type="material-community"
-                    name={hideRepPassword ? "eye-outline" : "eye-off-outline"}
-                    iconStyle={styles.iconRight}
-                    onPress={() => setHideRepPassword(!hideRepPassword)}
-                  />
-                }
+                onChange={(e) => setEdad(e.nativeEvent.text)}
+              />
+                <Input
+                label="Parentesco"
+                placeholder=""
+                style={styles.input}
+                onChange={(e) => setParentesco(e.nativeEvent.text)}
+              />    
+               <Input
+                label="Correo"
+                placeholder=""
+                style={styles.input}
+                onChange={(e) => setCorreo(e.nativeEvent.text)}
               />
               <Input
                 label="Telefono"
-                placeholder="134235346"
-                password={true}
-                secureTextEntry={true}
+                placeholder=""
                 style={styles.input}
-                onChange={(e) => setRePassword(e.nativeEvent.text)}
-                rightIcon={
-                  <Icon
-                    type="material-community"
-                    name={hideRepPassword ? "eye-outline" : "eye-off-outline"}
-                    iconStyle={styles.iconRight}
-                    onPress={() => setHideRepPassword(!hideRepPassword)}
-                  />
-                }
+                onChange={(e) => setTelefono(e.nativeEvent.text)}
               />
+
               <Button
                 gradient
                 containerStyle={styles.btnContainerNext}
-                onPress={() => navigation.navigate("GestFamiliar")}
+                onPress={() => {
+                  añadirpaciente(nombre, apellidoMaterno, apellidoPaterno, dni, Telefono, edad, fnacimiento,parentesco,correo,toastRef,navigation);
+                }}
               >
                 <Text bold white center>
-                  Guardar
+                  Agregar Paciente
                 </Text>
               </Button>
 
               <Loading text="Creando cuenta" isVisible={isVisibleLoading} />
             </View>
+     
+            <Toast ref={toastRef} position="center" opacity={0,9}/>
           </Block>
         </Block>
       </View>
     </ScrollView>
-  );
+
+  )
 }
 
 export default withNavigation(RegisterForm);
@@ -255,4 +203,4 @@ const styles = StyleSheet.create({
     borderBottomColor: theme.colors.gray2,
     borderBottomWidth: 1,
   },
-});
+})

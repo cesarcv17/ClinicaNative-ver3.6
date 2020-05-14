@@ -48,15 +48,12 @@ function UserLogged(props) {
           title="Datos Personales"
           buttonStyle={styles.menuItem2}
           titleStyle={styles.text}
-          /*           onPress={() => navigation.navigate("Config")}
-           */
-
           onPress={() => navigation.navigate("InfoUser")}
           iconRight={true}
           icon={
             <Icon
               type="material-community"
-              name="check"
+              name="arrow-right-drop-circle"
               size={27}
               color="#ccc"
               iconStyle={{ marginRight: "25%" }}
@@ -73,10 +70,10 @@ function UserLogged(props) {
         icon={
           <Icon
             type="material-community"
-            name="account-group"
-            size={30}
+            name="arrow-right-drop-circle"
+            size={27}
             color="#ccc"
-            iconStyle={{ marginRight: "26%" }}
+            iconStyle={{ marginRight: "25%" }}
             //iconNameRight="chevron-right"
             //iconColorRight="#ccc"
           />
@@ -148,20 +145,21 @@ const styles = StyleSheet.create({
     marginBottom: 7,
     color: "#2f4f4f",
     marginTop: 7,
-    marginRight: 190,
+    marginRight: 180,
   },
   menuItem: {
     borderBottomWidth: 1,
     borderBottomColor: "#e3e3e3",
     backgroundColor: "white",
-    paddingBottom: 10,
+    paddingBottom: 50,
+  
   },
   menuItem2: {
     borderBottomWidth: 1,
     borderBottomColor: "#e3e3e3",
     backgroundColor: "white",
     paddingBottom: 10,
-    paddingLeft: "10%",
+    paddingLeft: "5%",
     borderTopWidth: 1,
     borderTopColor: "#e3e3e3",
   },
